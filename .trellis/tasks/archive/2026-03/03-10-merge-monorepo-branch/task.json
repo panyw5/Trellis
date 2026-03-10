@@ -1,18 +1,19 @@
 {
-  "id": "v037",
-  "name": "v037",
-  "title": "Trellis v0.3.7",
+  "id": "merge-monorepo-branch",
+  "name": "merge-monorepo-branch",
+  "title": "合并 monorepo 分支到 main",
   "description": "",
-  "status": "planning",
+  "status": "completed",
+  "package": null,
   "dev_type": null,
   "scope": null,
   "priority": "P2",
   "creator": "taosu",
   "assignee": "taosu",
-  "createdAt": "2026-03-06",
-  "completedAt": null,
+  "createdAt": "2026-03-10",
+  "completedAt": "2026-03-10",
   "branch": null,
-  "base_branch": "main",
+  "base_branch": "feat/monorepo-submodule",
   "worktree_path": null,
   "current_phase": 0,
   "next_action": [
@@ -41,6 +42,6 @@
   "relatedFiles": [],
   "notes": "",
   "meta": {
-    "linear_issue": "MIN-342"
+    "linear_issue": "MIN-365"
   }
 }
