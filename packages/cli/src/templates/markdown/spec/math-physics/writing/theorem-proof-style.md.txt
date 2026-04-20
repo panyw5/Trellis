@@ -1,0 +1,10 @@
+# Theorem and Proof Style
+
+Describe how formal statements and proof sketches should be written in this project.
+
+Document:
+
+- theorem/proposition naming rules
+- what qualifies as a proof sketch versus a full proof
+- how computational evidence should be labeled
+- where open questions or conjectures should live

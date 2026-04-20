@@ -600,4 +600,36 @@ describe("init() integration", () => {
     const matches = configContent.match(/^packages\s*:/gm);
     expect(matches).toHaveLength(1);
   });
+
+  it("#13 math-physics profile creates research spec templates", async () => {
+    await init({ yes: true, user: "testdev", profile: "math-physics" });
+
+    const specDir = path.join(tmpDir, PATHS.SPEC);
+    expect(fs.existsSync(path.join(specDir, "objects", "index.md"))).toBe(true);
+    expect(fs.existsSync(path.join(specDir, "algorithms", "index.md"))).toBe(true);
+    expect(fs.existsSync(path.join(specDir, "verification", "index.md"))).toBe(true);
+    expect(fs.existsSync(path.join(specDir, "experiments", "index.md"))).toBe(true);
+    expect(fs.existsSync(path.join(specDir, "writing", "index.md"))).toBe(true);
+    expect(fs.existsSync(path.join(specDir, "frontend"))).toBe(false);
+    expect(fs.existsSync(path.join(specDir, "backend"))).toBe(false);
+
+    const workflow = fs.readFileSync(
+      path.join(tmpDir, PATHS.WORKFLOW_GUIDE_FILE),
+      "utf-8",
+    );
+    expect(workflow).toContain("Research Workflow");
+
+    const bootstrapPrd = fs.readFileSync(
+      path.join(tmpDir, PATHS.TASKS, "00-bootstrap-guidelines", "prd.md"),
+      "utf-8",
+    );
+    expect(bootstrapPrd).toContain("mathematical objects");
+    expect(bootstrapPrd).toContain("math-physics Trellis profile");
+
+    const guidesIndex = fs.readFileSync(
+      path.join(specDir, "guides", "index.md"),
+      "utf-8",
+    );
+    expect(guidesIndex).toContain("Research Thinking Guides");
+  });
 });

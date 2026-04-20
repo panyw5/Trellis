@@ -1,0 +1,10 @@
+# Literature Cross-Check
+
+Describe how results should be compared against references.
+
+Include:
+
+- standard references and tables
+- known formula numbers or theorem labels
+- differences in notation or normalization that need translation
+- how to record agreement or disagreement with the literature

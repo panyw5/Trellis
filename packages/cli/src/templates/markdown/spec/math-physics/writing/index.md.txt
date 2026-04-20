@@ -1,0 +1,12 @@
+# Writing Guidelines
+
+> Keep research notes, theorem statements, and references consistent across sessions.
+
+---
+
+## What to Capture
+
+- theorem / proposition / lemma style
+- proof-outline conventions
+- distinction between proved results and computational evidence
+- citation style and bibliography handling

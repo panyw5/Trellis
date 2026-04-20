@@ -1,0 +1,10 @@
+# Algorithm Design
+
+Document how algorithms should be structured in this project.
+
+Include:
+
+- preferred decomposition into helper routines
+- recurrence or inductive structure
+- data structures for sparse or combinatorial objects
+- when to precompute, cache, or reuse intermediate results

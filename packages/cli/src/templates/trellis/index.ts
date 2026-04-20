@@ -86,6 +86,9 @@ export const createBootstrapScript = readTemplate(
 
 // Configuration files
 export const workflowMdTemplate = readTemplate("workflow.md");
+export const workflowMathPhysicsMdTemplate = readTemplate(
+  "workflow-math-physics.md",
+);
 export const configYamlTemplate = readTemplate("config.yaml");
 export const worktreeYamlTemplate = readTemplate("worktree.yaml");
 export const gitignoreTemplate = readTemplate("gitignore.txt");

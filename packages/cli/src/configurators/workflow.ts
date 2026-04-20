@@ -6,6 +6,7 @@ import { copyTrellisDir } from "../templates/extract.js";
 // Import trellis templates (generic, not project-specific)
 import {
   workflowMdTemplate,
+  workflowMathPhysicsMdTemplate,
   configYamlTemplate,
   worktreeYamlTemplate,
   gitignoreTemplate,
@@ -29,18 +30,38 @@ import {
   frontendComponentGuidelinesContent,
   frontendQualityGuidelinesContent,
   frontendStateManagementContent,
+  mathPhysicsObjectsIndexContent,
+  mathPhysicsObjectsNamingContent,
+  mathPhysicsObjectsCanonicalContent,
+  mathPhysicsAlgorithmsIndexContent,
+  mathPhysicsAlgorithmsDesignContent,
+  mathPhysicsAlgorithmsComplexityContent,
+  mathPhysicsVerificationIndexContent,
+  mathPhysicsVerificationSpecialCasesContent,
+  mathPhysicsVerificationLiteratureContent,
+  mathPhysicsExperimentsIndexContent,
+  mathPhysicsExperimentsParameterSweepsContent,
+  mathPhysicsExperimentsFailureCaptureContent,
+  mathPhysicsWritingIndexContent,
+  mathPhysicsWritingProofStyleContent,
+  mathPhysicsWritingCitationsContent,
+  mathPhysicsGuidesIndexContent,
   // Guides structure
   guidesIndexContent,
   guidesCrossLayerThinkingGuideContent,
   guidesCodeReuseThinkingGuideContent,
+  guidesAbstractionToComputationContent,
+  guidesConjectureValidationContent,
+  guidesReuseExistingConstructionsContent,
 } from "../templates/markdown/index.js";
 
 import { writeFile, ensureDir } from "../utils/file-writer.js";
+import type { ProjectType } from "../utils/project-detector.js";
 import {
   sanitizePkgName,
-  type ProjectType,
   type DetectedPackage,
 } from "../utils/project-detector.js";
+import type { InitProfile } from "../types/profile.js";
 
 interface DocDefinition {
   name: string;
@@ -53,6 +74,8 @@ interface DocDefinition {
 export interface WorkflowOptions {
   /** Detected or specified project type */
   projectType: ProjectType;
+  /** Built-in workflow profile */
+  profile?: InitProfile;
   /** Enable multi-agent pipeline with worktree support */
   multiAgent?: boolean;
   /** Skip creating local spec templates (when using remote template) — single-repo mode */
@@ -82,6 +105,7 @@ export async function createWorkflowStructure(
   options?: WorkflowOptions,
 ): Promise<void> {
   const projectType = options?.projectType ?? "fullstack";
+  const profile = options?.profile ?? "default";
   const multiAgent = options?.multiAgent ?? false;
   const skipSpecTemplates = options?.skipSpecTemplates ?? false;
   const packages = options?.packages;
@@ -98,7 +122,9 @@ export async function createWorkflowStructure(
   // Copy workflow.md from templates
   await writeFile(
     path.join(cwd, PATHS.WORKFLOW_GUIDE_FILE),
-    workflowMdTemplate,
+    profile === "math-physics"
+      ? workflowMathPhysicsMdTemplate
+      : workflowMdTemplate,
   );
 
   // Copy .gitignore from templates
@@ -133,12 +159,20 @@ export async function createWorkflowStructure(
 
   // Create spec templates based on project type
   // These are NOT dogfooded - they are generic templates for new projects
-  if (packages && packages.length > 0) {
-    // Monorepo mode: create per-package spec directories
-    await createSpecTemplates(cwd, projectType, packages, remoteSpecPackages);
-  } else if (!skipSpecTemplates) {
-    // Single-repo mode: create global spec (skip if using remote template)
-    await createSpecTemplates(cwd, projectType);
+  if (!skipSpecTemplates) {
+    if (packages && packages.length > 0) {
+      // Monorepo mode: create per-package spec directories
+      await createSpecTemplates(
+        cwd,
+        projectType,
+        profile,
+        packages,
+        remoteSpecPackages,
+      );
+    } else {
+      // Single-repo mode: create global spec (skip if using remote template)
+      await createSpecTemplates(cwd, projectType, profile);
+    }
   }
 }
 
@@ -214,13 +248,19 @@ async function writeSpecForType(
 async function createSpecTemplates(
   cwd: string,
   projectType: ProjectType,
+  profile: InitProfile,
   packages?: DetectedPackage[],
   remoteSpecPackages?: Set<string>,
 ): Promise<void> {
   // Ensure spec directory exists
   ensureDir(path.join(cwd, PATHS.SPEC));
 
-  // Guides - always created regardless of mode
+  if (profile === "math-physics") {
+    await createMathPhysicsSpecTemplates(cwd);
+    return;
+  }
+
+  // Guides - always created
   const guidesDir = path.join(cwd, `${PATHS.SPEC}/guides`);
   ensureDir(guidesDir);
   const guidesDocs: DocDefinition[] = [
@@ -251,5 +291,90 @@ async function createSpecTemplates(
   } else {
     // Single-repo mode
     await writeSpecForType(path.join(cwd, PATHS.SPEC), projectType);
+  }
+}
+
+async function createMathPhysicsSpecTemplates(cwd: string): Promise<void> {
+  const directories: Record<string, DocDefinition[]> = {
+    objects: [
+      { name: "index.md", content: mathPhysicsObjectsIndexContent },
+      {
+        name: "naming-and-notation.md",
+        content: mathPhysicsObjectsNamingContent,
+      },
+      {
+        name: "canonical-representations.md",
+        content: mathPhysicsObjectsCanonicalContent,
+      },
+    ],
+    algorithms: [
+      { name: "index.md", content: mathPhysicsAlgorithmsIndexContent },
+      {
+        name: "algorithm-design.md",
+        content: mathPhysicsAlgorithmsDesignContent,
+      },
+      {
+        name: "complexity-and-scaling.md",
+        content: mathPhysicsAlgorithmsComplexityContent,
+      },
+    ],
+    verification: [
+      { name: "index.md", content: mathPhysicsVerificationIndexContent },
+      {
+        name: "special-cases.md",
+        content: mathPhysicsVerificationSpecialCasesContent,
+      },
+      {
+        name: "literature-crosscheck.md",
+        content: mathPhysicsVerificationLiteratureContent,
+      },
+    ],
+    experiments: [
+      { name: "index.md", content: mathPhysicsExperimentsIndexContent },
+      {
+        name: "parameter-sweeps.md",
+        content: mathPhysicsExperimentsParameterSweepsContent,
+      },
+      {
+        name: "failure-capture.md",
+        content: mathPhysicsExperimentsFailureCaptureContent,
+      },
+    ],
+    writing: [
+      { name: "index.md", content: mathPhysicsWritingIndexContent },
+      {
+        name: "theorem-proof-style.md",
+        content: mathPhysicsWritingProofStyleContent,
+      },
+      {
+        name: "citation-and-references.md",
+        content: mathPhysicsWritingCitationsContent,
+      },
+    ],
+    guides: [
+      { name: "index.md", content: mathPhysicsGuidesIndexContent },
+      {
+        name: "abstraction-to-computation.md",
+        content: guidesAbstractionToComputationContent,
+      },
+      {
+        name: "conjecture-validation.md",
+        content: guidesConjectureValidationContent,
+      },
+      {
+        name: "reuse-existing-constructions.md",
+        content: guidesReuseExistingConstructionsContent,
+      },
+    ],
+  };
+
+  for (const [directory, docs] of Object.entries(directories)) {
+    ensureDir(path.join(cwd, PATHS.SPEC, directory));
+    for (const doc of docs) {
+      await writeFile(
+        path.join(cwd, PATHS.SPEC, directory, doc.name),
+        doc.content,
+      );
+    }
   }
 }

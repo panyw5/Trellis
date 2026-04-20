@@ -1,0 +1,13 @@
+# Verification Guidelines
+
+> Define how computational results are checked before being treated as reliable.
+
+---
+
+## Verification Sources
+
+- benchmark examples with known answers
+- special or degenerate cases
+- symmetries and invariants
+- identities from the literature
+- independent alternative computations

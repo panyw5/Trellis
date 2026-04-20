@@ -85,6 +85,51 @@ export const frontendStateManagementContent: string = readLocalTemplate(
   "spec/frontend/state-management.md.txt",
 );
 
+// Math-physics research structure
+export const mathPhysicsObjectsIndexContent: string = readLocalTemplate(
+  "spec/math-physics/objects/index.md.txt",
+);
+export const mathPhysicsObjectsNamingContent: string = readLocalTemplate(
+  "spec/math-physics/objects/naming-and-notation.md.txt",
+);
+export const mathPhysicsObjectsCanonicalContent: string = readLocalTemplate(
+  "spec/math-physics/objects/canonical-representations.md.txt",
+);
+export const mathPhysicsAlgorithmsIndexContent: string = readLocalTemplate(
+  "spec/math-physics/algorithms/index.md.txt",
+);
+export const mathPhysicsAlgorithmsDesignContent: string = readLocalTemplate(
+  "spec/math-physics/algorithms/algorithm-design.md.txt",
+);
+export const mathPhysicsAlgorithmsComplexityContent: string = readLocalTemplate(
+  "spec/math-physics/algorithms/complexity-and-scaling.md.txt",
+);
+export const mathPhysicsVerificationIndexContent: string = readLocalTemplate(
+  "spec/math-physics/verification/index.md.txt",
+);
+export const mathPhysicsVerificationSpecialCasesContent: string =
+  readLocalTemplate("spec/math-physics/verification/special-cases.md.txt");
+export const mathPhysicsVerificationLiteratureContent: string =
+  readLocalTemplate(
+    "spec/math-physics/verification/literature-crosscheck.md.txt",
+  );
+export const mathPhysicsExperimentsIndexContent: string = readLocalTemplate(
+  "spec/math-physics/experiments/index.md.txt",
+);
+export const mathPhysicsExperimentsParameterSweepsContent: string =
+  readLocalTemplate("spec/math-physics/experiments/parameter-sweeps.md.txt");
+export const mathPhysicsExperimentsFailureCaptureContent: string =
+  readLocalTemplate("spec/math-physics/experiments/failure-capture.md.txt");
+export const mathPhysicsWritingIndexContent: string = readLocalTemplate(
+  "spec/math-physics/writing/index.md.txt",
+);
+export const mathPhysicsWritingProofStyleContent: string = readLocalTemplate(
+  "spec/math-physics/writing/theorem-proof-style.md.txt",
+);
+export const mathPhysicsWritingCitationsContent: string = readLocalTemplate(
+  "spec/math-physics/writing/citation-and-references.md.txt",
+);
+
 // Guides structure
 export const guidesIndexContent: string = readLocalTemplate(
   "spec/guides/index.md.txt",
@@ -95,3 +140,16 @@ export const guidesCrossLayerThinkingGuideContent: string = readLocalTemplate(
 export const guidesCodeReuseThinkingGuideContent: string = readLocalTemplate(
   "spec/guides/code-reuse-thinking-guide.md.txt",
 );
+export const guidesAbstractionToComputationContent: string = readLocalTemplate(
+  "spec/math-physics/guides/abstraction-to-computation.md.txt",
+);
+export const mathPhysicsGuidesIndexContent: string = readLocalTemplate(
+  "spec/math-physics/guides/index.md.txt",
+);
+export const guidesConjectureValidationContent: string = readLocalTemplate(
+  "spec/math-physics/guides/conjecture-validation.md.txt",
+);
+export const guidesReuseExistingConstructionsContent: string =
+  readLocalTemplate(
+    "spec/math-physics/guides/reuse-existing-constructions.md.txt",
+  );

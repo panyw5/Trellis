@@ -43,6 +43,7 @@ import {
   type RegistrySource,
 } from "../utils/template-fetcher.js";
 import { setupProxy, maskProxyUrl } from "../utils/proxy.js";
+import { resolveInitProfile, type InitProfile } from "../types/profile.js";
 
 /**
  * Detect available Python command (python3 or python) and verify version >= 3.10
@@ -101,10 +102,71 @@ function getPythonCommand(): string {
 
 const BOOTSTRAP_TASK_NAME = "00-bootstrap-guidelines";
 
+function getMathPhysicsBootstrapPrdContent(): string {
+  return [
+    "# Bootstrap: Fill Research Project Guidelines",
+    "",
+    "## Purpose",
+    "",
+    "Welcome to the math-physics Trellis profile.",
+    "",
+    "AI agents rely on .trellis/spec/ to understand your mathematical objects,",
+    "algorithm design choices, verification standards, and research-writing conventions.",
+    "",
+    "This first task turns your project from a generic repository into a research workspace",
+    "with explicit notation, benchmark cases, and reproducibility rules.",
+    "",
+    "---",
+    "",
+    "## Your Task",
+    "",
+    "Fill these directories using your existing notes, code, and literature references:",
+    "",
+    "| Directory | What to document |",
+    "|-----------|------------------|",
+    "| `.trellis/spec/objects/` | notation, canonical forms, normalization, benchmark families |",
+    "| `.trellis/spec/algorithms/` | construction patterns, recursion, memoization, scaling expectations |",
+    "| `.trellis/spec/verification/` | known cases, identities, symmetry checks, literature cross-checks |",
+    "| `.trellis/spec/experiments/` | parameter sweeps, output formats, caching, failure capture |",
+    "| `.trellis/spec/writing/` | theorem/proof style, note-taking conventions, citation rules |",
+    "",
+    "---",
+    "",
+    "## How to Fill These Guidelines",
+    "",
+    "1. Start from the mathematical objects your project manipulates most often.",
+    "2. Record the exact notation and normalization you want every session to follow.",
+    "3. List small benchmark cases and known results that every implementation should pass.",
+    "4. Capture where results come from: proofs, experiments, literature, or conjecture.",
+    "5. Keep failed attempts and edge-case surprises — they are part of the research context.",
+    "",
+    "---",
+    "",
+    "## Completion Checklist",
+    "",
+    "- [ ] notation and canonical representations are written down",
+    "- [ ] algorithm rules and complexity expectations are documented",
+    "- [ ] verification examples reference concrete benchmark cases or literature",
+    "- [ ] experiment output and failure-capture rules are clear",
+    "- [ ] writing conventions distinguish proved results from computational evidence",
+    "",
+    "When done:",
+    "",
+    "```bash",
+    "python3 ./.trellis/scripts/task.py finish",
+    "python3 ./.trellis/scripts/task.py archive 00-bootstrap-guidelines",
+    "```",
+  ].join("\n");
+}
+
 function getBootstrapPrdContent(
   projectType: ProjectType,
+  profile: InitProfile,
   packages?: DetectedPackage[],
 ): string {
+  if (profile === "math-physics") {
+    return getMathPhysicsBootstrapPrdContent();
+  }
   const header = `# Bootstrap: Fill Project Development Guidelines
 
 ## Purpose
@@ -278,9 +340,44 @@ interface TaskJson {
 function getBootstrapTaskJson(
   developer: string,
   projectType: ProjectType,
+  profile: InitProfile,
   packages?: DetectedPackage[],
 ): TaskJson {
   const today = new Date().toISOString().split("T")[0];
+
+  if (profile === "math-physics") {
+    return {
+      id: BOOTSTRAP_TASK_NAME,
+      name: "Bootstrap Research Guidelines",
+      description:
+        "Fill in mathematical physics research guidelines for AI agents",
+      status: "in_progress",
+      dev_type: "docs",
+      priority: "P1",
+      creator: developer,
+      assignee: developer,
+      createdAt: today,
+      completedAt: null,
+      commit: null,
+      subtasks: [
+        { name: "Fill object and notation guidelines", status: "pending" },
+        { name: "Define verification and experiment rules", status: "pending" },
+        { name: "Add benchmark examples and references", status: "pending" },
+      ],
+      children: [],
+      parent: null,
+      relatedFiles: [
+        ".trellis/spec/objects/",
+        ".trellis/spec/algorithms/",
+        ".trellis/spec/verification/",
+        ".trellis/spec/experiments/",
+        ".trellis/spec/writing/",
+      ],
+      notes:
+        "First-time setup task created by trellis init (math-physics research profile)",
+      meta: { profile },
+    };
+  }
 
   let subtasks: { name: string; status: string }[];
   let relatedFiles: string[];
@@ -345,6 +442,7 @@ function createBootstrapTask(
   cwd: string,
   developer: string,
   projectType: ProjectType,
+  profile: InitProfile,
   packages?: DetectedPackage[],
 ): boolean {
   const taskDir = path.join(cwd, PATHS.TASKS, BOOTSTRAP_TASK_NAME);
@@ -360,7 +458,12 @@ function createBootstrapTask(
     fs.mkdirSync(taskDir, { recursive: true });
 
     // Write task.json
-    const taskJson = getBootstrapTaskJson(developer, projectType, packages);
+    const taskJson = getBootstrapTaskJson(
+      developer,
+      projectType,
+      profile,
+      packages,
+    );
     fs.writeFileSync(
       path.join(taskDir, FILE_NAMES.TASK_JSON),
       JSON.stringify(taskJson, null, 2),
@@ -368,7 +471,7 @@ function createBootstrapTask(
     );
 
     // Write prd.md
-    const prdContent = getBootstrapPrdContent(projectType, packages);
+    const prdContent = getBootstrapPrdContent(projectType, profile, packages);
     fs.writeFileSync(path.join(taskDir, FILE_NAMES.PRD), prdContent, "utf-8");
 
     // Set as current task
@@ -555,6 +658,7 @@ interface InitOptions {
   overwrite?: boolean;
   append?: boolean;
   registry?: string;
+  profile?: string;
   monorepo?: boolean;
 }
 
@@ -695,6 +799,7 @@ export async function init(options: InitOptions): Promise<void> {
 
   // Detect project type (silent - no output)
   const detectedType = detectProjectType(cwd);
+  const profile = resolveInitProfile(options.profile);
 
   // Parse custom registry source early (needed by both monorepo + single-repo flows)
   let registry: RegistrySource | undefined;
@@ -1283,6 +1388,7 @@ export async function init(options: InitOptions): Promise<void> {
   console.log(chalk.blue("📁 Creating workflow structure..."));
   await createWorkflowStructure(cwd, {
     projectType,
+    profile,
     multiAgent: true,
     skipSpecTemplates: useRemoteTemplate,
     packages: monorepoPackages,
@@ -1344,7 +1450,13 @@ export async function init(options: InitOptions): Promise<void> {
 
       // Create bootstrap task only on first init (not re-init for new platforms/devices)
       if (isFirstInit) {
-        createBootstrapTask(cwd, developerName, projectType, monorepoPackages);
+        createBootstrapTask(
+          cwd,
+          developerName,
+          projectType,
+          profile,
+          monorepoPackages,
+        );
       }
     } catch {
       // Silent failure - user can run init_developer.py manually

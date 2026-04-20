@@ -1,0 +1,9 @@
+# Citation and References
+
+Document the reference style used in notes and generated research artifacts.
+
+Include:
+
+- how to cite papers, books, or tables
+- where bibliography metadata lives
+- how to reference theorem or equation numbers from the literature

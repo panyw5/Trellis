@@ -1,0 +1,10 @@
+# Failure Capture
+
+When a computation fails, times out, or produces suspicious output, record it explicitly.
+
+Include:
+
+- input data
+- observed failure mode
+- whether the issue is mathematical, numerical, or implementation-related
+- next step for investigation

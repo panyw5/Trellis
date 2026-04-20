@@ -79,6 +79,10 @@ program
     "-u, --user <name>",
     "Initialize developer identity with specified name",
   )
+  .option(
+    "--profile <name>",
+    "Use a built-in workflow profile (e.g., math-physics)",
+  )
   .option("-f, --force", "Overwrite existing files without asking")
   .option("-s, --skip-existing", "Skip existing files without asking")
   .option("--monorepo", "Force monorepo mode")
