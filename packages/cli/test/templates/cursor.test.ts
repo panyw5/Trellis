@@ -10,7 +10,6 @@ const EXPECTED_COMMAND_NAMES = [
   "trellis-before-dev",
   "trellis-brainstorm",
   "trellis-break-loop",
-  "trellis-check-cross-layer",
   "trellis-check",
   "trellis-create-command",
   "trellis-finish-work",

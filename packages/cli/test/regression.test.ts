@@ -1518,7 +1518,6 @@ describe("regression: collectTemplates paths match init directory structure (0.3
 
     const keys = [...templates.keys()];
     expect(keys.some((key) => key.startsWith(".agents/skills/"))).toBe(true);
-    expect(keys.some((key) => key.startsWith(".codex/skills/"))).toBe(true);
     expect(keys.some((key) => key.startsWith(".codex/agents/"))).toBe(true);
     expect(keys.some((key) => key.startsWith(".codex/hooks/"))).toBe(true);
     expect(keys).toContain(".codex/hooks.json");

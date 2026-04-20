@@ -61,7 +61,6 @@ const EXPECTED_COMMAND_NAMES = [
   "before-dev",
   "brainstorm",
   "break-loop",
-  "check-cross-layer",
   "check",
   "create-command",
   "finish-work",

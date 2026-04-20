@@ -5,7 +5,6 @@ const EXPECTED_WORKFLOW_NAMES = [
   "before-dev",
   "brainstorm",
   "break-loop",
-  "check-cross-layer",
   "check",
   "create-command",
   "finish-work",

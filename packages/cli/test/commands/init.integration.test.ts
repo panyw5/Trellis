@@ -148,11 +148,6 @@ describe("init() integration", () => {
         path.join(tmpDir, ".codex", "agents", "check.toml"),
       ),
     ).toBe(true);
-    expect(
-      fs.existsSync(
-        path.join(tmpDir, ".codex", "skills", "parallel", "SKILL.md"),
-      ),
-    ).toBe(true);
     expect(fs.existsSync(path.join(tmpDir, ".codex", "hooks.json"))).toBe(
       true,
     );

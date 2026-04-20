@@ -79,7 +79,7 @@ describe("codex getAllCodexSkills (platform-specific)", () => {
   it("returns codex-specific skills", () => {
     const skills = getAllCodexSkills();
     const names = skills.map((skill) => skill.name);
-    expect(names).toEqual(["parallel"]);
+    expect(names).toEqual([]);
   });
 
   it("codex-specific skills contain --platform codex", () => {
