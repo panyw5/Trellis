@@ -1,6 +1,6 @@
 # Start Session
 
-Initialize your AI development session and begin working on tasks.
+Initialize your AI research session and begin working on tasks.
 
 ---
 
@@ -19,10 +19,10 @@ Operations in this document are categorized as:
 
 ### Step 1: Understand Trellis Workflow `[AI]`
 
-First, read the workflow guide to understand the development process:
+First, read the workflow guide to understand the project workflow:
 
 ```bash
-cat .trellis/workflow.md  # Development process, conventions, and quick start guide
+cat .trellis/workflow.md  # Project process, conventions, and quick start guide
 ```
 
 ### Step 2: Get Current Status `[AI]`
@@ -38,20 +38,22 @@ This returns:
 - Active tasks
 - Journal file status
 
-### Step 3: Read Guidelines Index `[AI]`
+### Step 3: Read Project Guidelines `[AI]`
+
+Use package-specific spec indexes when they exist, and read the research spec indexes when the project uses the math-physics profile:
 
 ```bash
 python3 ./.trellis/scripts/get_context.py --mode packages
-```
-
-This shows available packages and their spec layers. Read the relevant spec indexes:
-
-```bash
 cat .trellis/spec/<package>/<layer>/index.md   # Package-specific guidelines
-cat .trellis/spec/guides/index.md              # Thinking guides (always read)
+cat .trellis/spec/objects/index.md
+cat .trellis/spec/algorithms/index.md
+cat .trellis/spec/verification/index.md
+cat .trellis/spec/experiments/index.md
+cat .trellis/spec/writing/index.md
+cat .trellis/spec/guides/index.md
 ```
 
-> **Important**: The index files are navigation — they list the actual guideline files (e.g., `error-handling.md`, `conventions.md`, `mock-strategies.md`).
+> **Important**: The index files are navigation — they list the actual guideline files.
 > At this step, just read the indexes to understand what's available.
 > When you start actual development, you MUST go back and read the specific guideline files relevant to your task, as listed in the index's Pre-Development Checklist.
 
@@ -89,16 +91,16 @@ When user describes a task, classify it:
 
 | Type | Criteria | Workflow |
 |------|----------|----------|
-| **Question** | User asks about code, architecture, or how something works | Answer directly |
-| **Trivial Fix** | Typo fix, comment update, single-line change, < 5 minutes | Direct Edit |
-| **Simple Task** | Clear goal, 1-2 files, well-defined scope | Quick confirm → Task Workflow |
-| **Complex Task** | Vague goal, multiple files, architectural decisions | **Brainstorm → Task Workflow** |
+| **Question** | User asks about definitions, code, literature, or how something works | Answer directly |
+| **Trivial Fix** | Comment fix, typo fix, small local edit | Direct Edit |
+| **Simple Task** | Clear goal, narrow scope, well-defined object or routine | Quick confirm → Task Workflow |
+| **Complex Task** | Vague goal, multiple constructions, algorithm design, or validation plan | **Brainstorm → Task Workflow** |
 
 ### Decision Rule
 
 > **If in doubt, use Brainstorm + Task Workflow.**
 >
-> Task Workflow ensures code-specs are injected to the right context, resulting in higher quality code.
+> Task Workflow ensures research context is injected to the right context, resulting in higher quality work.
 > The overhead is minimal, but the benefit is significant.
 
 > **Subtask Decomposition**: If brainstorm reveals multiple independent work items,
