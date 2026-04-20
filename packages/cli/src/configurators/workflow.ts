@@ -30,21 +30,18 @@ import {
   frontendComponentGuidelinesContent,
   frontendQualityGuidelinesContent,
   frontendStateManagementContent,
-  mathPhysicsObjectsIndexContent,
-  mathPhysicsObjectsNamingContent,
-  mathPhysicsObjectsCanonicalContent,
-  mathPhysicsAlgorithmsIndexContent,
-  mathPhysicsAlgorithmsDesignContent,
-  mathPhysicsAlgorithmsComplexityContent,
-  mathPhysicsVerificationIndexContent,
-  mathPhysicsVerificationSpecialCasesContent,
-  mathPhysicsVerificationLiteratureContent,
-  mathPhysicsExperimentsIndexContent,
-  mathPhysicsExperimentsParameterSweepsContent,
-  mathPhysicsExperimentsFailureCaptureContent,
-  mathPhysicsWritingIndexContent,
-  mathPhysicsWritingProofStyleContent,
-  mathPhysicsWritingCitationsContent,
+  mathPhysicsDefinitionsIndexContent,
+  mathPhysicsDefinitionsNotationContent,
+  mathPhysicsDefinitionsCanonicalContent,
+  mathPhysicsCoreTestsIndexContent,
+  mathPhysicsCoreTestsQualityContent,
+  mathPhysicsCoreTestsCoverageContent,
+  mathPhysicsMathTestsIndexContent,
+  mathPhysicsMathTestsSpecialCasesContent,
+  mathPhysicsMathTestsLiteratureContent,
+  mathPhysicsPhyTestsIndexContent,
+  mathPhysicsPhyTestsObservablesContent,
+  mathPhysicsPhyTestsLimitsContent,
   mathPhysicsGuidesIndexContent,
   // Guides structure
   guidesIndexContent,
@@ -296,59 +293,48 @@ async function createSpecTemplates(
 
 async function createMathPhysicsSpecTemplates(cwd: string): Promise<void> {
   const directories: Record<string, DocDefinition[]> = {
-    objects: [
-      { name: "index.md", content: mathPhysicsObjectsIndexContent },
+    definitions: [
+      { name: "index.md", content: mathPhysicsDefinitionsIndexContent },
       {
         name: "naming-and-notation.md",
-        content: mathPhysicsObjectsNamingContent,
+        content: mathPhysicsDefinitionsNotationContent,
       },
       {
         name: "canonical-representations.md",
-        content: mathPhysicsObjectsCanonicalContent,
+        content: mathPhysicsDefinitionsCanonicalContent,
       },
     ],
-    algorithms: [
-      { name: "index.md", content: mathPhysicsAlgorithmsIndexContent },
+    "core-tests": [
+      { name: "index.md", content: mathPhysicsCoreTestsIndexContent },
       {
-        name: "algorithm-design.md",
-        content: mathPhysicsAlgorithmsDesignContent,
+        name: "quality-and-regression.md",
+        content: mathPhysicsCoreTestsQualityContent,
       },
       {
-        name: "complexity-and-scaling.md",
-        content: mathPhysicsAlgorithmsComplexityContent,
+        name: "interface-and-coverage.md",
+        content: mathPhysicsCoreTestsCoverageContent,
       },
     ],
-    verification: [
-      { name: "index.md", content: mathPhysicsVerificationIndexContent },
+    "math-tests": [
+      { name: "index.md", content: mathPhysicsMathTestsIndexContent },
       {
         name: "special-cases.md",
-        content: mathPhysicsVerificationSpecialCasesContent,
+        content: mathPhysicsMathTestsSpecialCasesContent,
       },
       {
         name: "literature-crosscheck.md",
-        content: mathPhysicsVerificationLiteratureContent,
+        content: mathPhysicsMathTestsLiteratureContent,
       },
     ],
-    experiments: [
-      { name: "index.md", content: mathPhysicsExperimentsIndexContent },
+    "phy-tests": [
+      { name: "index.md", content: mathPhysicsPhyTestsIndexContent },
       {
-        name: "parameter-sweeps.md",
-        content: mathPhysicsExperimentsParameterSweepsContent,
+        name: "observables-and-symmetries.md",
+        content: mathPhysicsPhyTestsObservablesContent,
       },
       {
-        name: "failure-capture.md",
-        content: mathPhysicsExperimentsFailureCaptureContent,
-      },
-    ],
-    writing: [
-      { name: "index.md", content: mathPhysicsWritingIndexContent },
-      {
-        name: "theorem-proof-style.md",
-        content: mathPhysicsWritingProofStyleContent,
-      },
-      {
-        name: "citation-and-references.md",
-        content: mathPhysicsWritingCitationsContent,
+        name: "limits-and-consistency.md",
+        content: mathPhysicsPhyTestsLimitsContent,
       },
     ],
     guides: [

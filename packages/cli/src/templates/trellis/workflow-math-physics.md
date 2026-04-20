@@ -19,11 +19,11 @@ This creates your personal workspace under `.trellis/workspace/<your-name>/`.
 
 Before making changes, read the profile guidelines in `.trellis/spec/`:
 
-- `objects/` for notation, representations, and canonical forms
-- `algorithms/` for implementation strategy and scaling rules
-- `verification/` for benchmark examples and consistency checks
-- `experiments/` for computational runs and result capture
-- `writing/` for note-taking, theorem/proof style, and references
+- `definitions/` for mathematical and physical definitions, symbols, and canonical forms
+- `core-tests/` for programming-project tests, regression expectations, and interface coverage
+- `math-tests/` for mathematical benchmark cases, identities, and literature cross-checks
+- `phy-tests/` for physical observables, symmetries, limits, and consistency expectations
+- `guides/` for thinking guides that connect definitions, implementation, and validation
 
 ### Step 2: Start from a Research Task
 

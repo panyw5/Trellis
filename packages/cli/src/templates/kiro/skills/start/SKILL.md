@@ -53,11 +53,10 @@ This shows available packages and their spec layers. Read the relevant spec inde
 ```bash
 cat .trellis/spec/<package>/<layer>/index.md   # Package-specific guidelines
 cat .trellis/spec/guides/index.md              # Thinking guides (always read)
-cat .trellis/spec/objects/index.md             # Research object conventions, if present
-cat .trellis/spec/algorithms/index.md          # Research algorithm conventions, if present
-cat .trellis/spec/verification/index.md        # Research verification rules, if present
-cat .trellis/spec/experiments/index.md         # Experiment conventions, if present
-cat .trellis/spec/writing/index.md             # Research writing conventions, if present
+cat .trellis/spec/definitions/index.md         # Definitions, symbols, and canonical forms, if present
+cat .trellis/spec/core-tests/index.md          # Engineering-level tests, if present
+cat .trellis/spec/math-tests/index.md          # Mathematical expectations, if present
+cat .trellis/spec/phy-tests/index.md           # Physical expectations, if present
 ```
 
 > **Important**: The index files are navigation — they list the actual guideline files.

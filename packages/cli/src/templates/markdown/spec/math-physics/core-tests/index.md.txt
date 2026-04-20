@@ -1,0 +1,13 @@
+# Core Tests Guidelines
+
+> Describe the engineering-level test expectations for this codebase as a software project.
+
+---
+
+## What to Capture
+
+- unit and integration test scope
+- interface stability expectations
+- regression coverage expectations
+- performance or resource baselines when relevant
+- what must be tested before code changes are treated as safe

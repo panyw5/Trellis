@@ -45,11 +45,10 @@ Use package-specific spec indexes when they exist, and read the research spec in
 ```bash
 python3 ./.trellis/scripts/get_context.py --mode packages
 cat .trellis/spec/<package>/<layer>/index.md   # Package-specific guidelines
-cat .trellis/spec/objects/index.md
-cat .trellis/spec/algorithms/index.md
-cat .trellis/spec/verification/index.md
-cat .trellis/spec/experiments/index.md
-cat .trellis/spec/writing/index.md
+cat .trellis/spec/definitions/index.md
+cat .trellis/spec/core-tests/index.md
+cat .trellis/spec/math-tests/index.md
+cat .trellis/spec/phy-tests/index.md
 cat .trellis/spec/guides/index.md
 ```
 

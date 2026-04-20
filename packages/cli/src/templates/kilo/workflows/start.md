@@ -43,11 +43,15 @@ This shows: developer identity, git status, current task (if any), active tasks.
 python3 ./.trellis/scripts/get_context.py --mode packages
 ```
 
-This shows available packages and their spec layers. Read the relevant spec indexes:
+This shows available packages and their spec layers. Read the relevant spec indexes for package-specific work, and read the research spec indexes when the project uses the math-physics profile:
 
 ```bash
 cat .trellis/spec/<package>/<layer>/index.md   # Package-specific guidelines
 cat .trellis/spec/guides/index.md              # Thinking guides (always read)
+cat .trellis/spec/definitions/index.md         # Definitions, symbols, and canonical forms, if present
+cat .trellis/spec/core-tests/index.md          # Engineering-level tests, if present
+cat .trellis/spec/math-tests/index.md          # Mathematical expectations, if present
+cat .trellis/spec/phy-tests/index.md           # Physical expectations, if present
 ```
 
 > **Important**: The index files are navigation — they list the actual guideline files (e.g., `error-handling.md`, `conventions.md`, `mock-strategies.md`).

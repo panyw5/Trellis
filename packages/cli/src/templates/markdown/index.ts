@@ -86,48 +86,40 @@ export const frontendStateManagementContent: string = readLocalTemplate(
 );
 
 // Math-physics research structure
-export const mathPhysicsObjectsIndexContent: string = readLocalTemplate(
-  "spec/math-physics/objects/index.md.txt",
+export const mathPhysicsDefinitionsIndexContent: string = readLocalTemplate(
+  "spec/math-physics/definitions/index.md.txt",
 );
-export const mathPhysicsObjectsNamingContent: string = readLocalTemplate(
-  "spec/math-physics/objects/naming-and-notation.md.txt",
+export const mathPhysicsDefinitionsNotationContent: string = readLocalTemplate(
+  "spec/math-physics/definitions/naming-and-notation.md.txt",
 );
-export const mathPhysicsObjectsCanonicalContent: string = readLocalTemplate(
-  "spec/math-physics/objects/canonical-representations.md.txt",
+export const mathPhysicsDefinitionsCanonicalContent: string = readLocalTemplate(
+  "spec/math-physics/definitions/canonical-representations.md.txt",
 );
-export const mathPhysicsAlgorithmsIndexContent: string = readLocalTemplate(
-  "spec/math-physics/algorithms/index.md.txt",
+export const mathPhysicsCoreTestsIndexContent: string = readLocalTemplate(
+  "spec/math-physics/core-tests/index.md.txt",
 );
-export const mathPhysicsAlgorithmsDesignContent: string = readLocalTemplate(
-  "spec/math-physics/algorithms/algorithm-design.md.txt",
+export const mathPhysicsCoreTestsQualityContent: string = readLocalTemplate(
+  "spec/math-physics/core-tests/quality-and-regression.md.txt",
 );
-export const mathPhysicsAlgorithmsComplexityContent: string = readLocalTemplate(
-  "spec/math-physics/algorithms/complexity-and-scaling.md.txt",
+export const mathPhysicsCoreTestsCoverageContent: string = readLocalTemplate(
+  "spec/math-physics/core-tests/interface-and-coverage.md.txt",
 );
-export const mathPhysicsVerificationIndexContent: string = readLocalTemplate(
-  "spec/math-physics/verification/index.md.txt",
+export const mathPhysicsMathTestsIndexContent: string = readLocalTemplate(
+  "spec/math-physics/math-tests/index.md.txt",
 );
-export const mathPhysicsVerificationSpecialCasesContent: string =
-  readLocalTemplate("spec/math-physics/verification/special-cases.md.txt");
-export const mathPhysicsVerificationLiteratureContent: string =
-  readLocalTemplate(
-    "spec/math-physics/verification/literature-crosscheck.md.txt",
-  );
-export const mathPhysicsExperimentsIndexContent: string = readLocalTemplate(
-  "spec/math-physics/experiments/index.md.txt",
+export const mathPhysicsMathTestsSpecialCasesContent: string =
+  readLocalTemplate("spec/math-physics/math-tests/special-cases.md.txt");
+export const mathPhysicsMathTestsLiteratureContent: string = readLocalTemplate(
+  "spec/math-physics/math-tests/literature-crosscheck.md.txt",
 );
-export const mathPhysicsExperimentsParameterSweepsContent: string =
-  readLocalTemplate("spec/math-physics/experiments/parameter-sweeps.md.txt");
-export const mathPhysicsExperimentsFailureCaptureContent: string =
-  readLocalTemplate("spec/math-physics/experiments/failure-capture.md.txt");
-export const mathPhysicsWritingIndexContent: string = readLocalTemplate(
-  "spec/math-physics/writing/index.md.txt",
+export const mathPhysicsPhyTestsIndexContent: string = readLocalTemplate(
+  "spec/math-physics/phy-tests/index.md.txt",
 );
-export const mathPhysicsWritingProofStyleContent: string = readLocalTemplate(
-  "spec/math-physics/writing/theorem-proof-style.md.txt",
+export const mathPhysicsPhyTestsObservablesContent: string = readLocalTemplate(
+  "spec/math-physics/phy-tests/observables-and-symmetries.md.txt",
 );
-export const mathPhysicsWritingCitationsContent: string = readLocalTemplate(
-  "spec/math-physics/writing/citation-and-references.md.txt",
+export const mathPhysicsPhyTestsLimitsContent: string = readLocalTemplate(
+  "spec/math-physics/phy-tests/limits-and-consistency.md.txt",
 );
 
 // Guides structure

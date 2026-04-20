@@ -6,4 +6,4 @@ For each case, include:
 
 - input data
 - expected output or property
-- why this case matters
+- why this case matters mathematically
