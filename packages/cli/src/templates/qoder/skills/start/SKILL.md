@@ -5,7 +5,7 @@ description: "Initializes an AI development session by reading workflow guides, 
 
 # Start Session
 
-Initialize your AI development session and begin working on tasks.
+Initialize your AI research session and begin working on tasks.
 
 ---
 
@@ -20,9 +20,9 @@ Initialize your AI development session and begin working on tasks.
 
 ## Initialization `[AI]`
 
-### Step 1: Understand Development Workflow
+### Step 1: Understand Research Workflow
 
-First, read the workflow guide to understand the development process:
+First, read the workflow guide to understand the project workflow:
 
 ```bash
 cat .trellis/workflow.md
@@ -31,7 +31,7 @@ cat .trellis/workflow.md
 **Follow the instructions in workflow.md** - it contains:
 - Core principles (Read Before Write, Follow Standards, etc.)
 - File system structure
-- Development process
+- Research process
 - Best practices
 
 ### Step 2: Get Current Context
@@ -42,20 +42,25 @@ python3 ./.trellis/scripts/get_context.py
 
 This shows: developer identity, git status, current task (if any), active tasks.
 
-### Step 3: Read Guidelines Index
+### Step 3: Read Research Guidelines
 
 ```bash
 python3 ./.trellis/scripts/get_context.py --mode packages
 ```
 
-This shows available packages and their spec layers. Read the relevant spec indexes:
+This shows available packages and their spec layers. Read the relevant spec indexes for package-specific work, and read the research spec indexes when the project uses the math-physics profile:
 
 ```bash
 cat .trellis/spec/<package>/<layer>/index.md   # Package-specific guidelines
 cat .trellis/spec/guides/index.md              # Thinking guides (always read)
+cat .trellis/spec/objects/index.md             # Research object conventions, if present
+cat .trellis/spec/algorithms/index.md          # Research algorithm conventions, if present
+cat .trellis/spec/verification/index.md        # Research verification rules, if present
+cat .trellis/spec/experiments/index.md         # Experiment conventions, if present
+cat .trellis/spec/writing/index.md             # Research writing conventions, if present
 ```
 
-> **Important**: The index files are navigation — they list the actual guideline files (e.g., `error-handling.md`, `conventions.md`, `mock-strategies.md`).
+> **Important**: The index files are navigation — they list the actual guideline files.
 > At this step, just read the indexes to understand what's available.
 > When you start actual development, you MUST go back and read the specific guideline files relevant to your task, as listed in the index's Pre-Development Checklist.
 
@@ -71,10 +76,10 @@ When user describes a task, classify it:
 
 | Type | Criteria | Workflow |
 |------|----------|----------|
-| **Question** | User asks about code, architecture, or how something works | Answer directly |
-| **Trivial Fix** | Typo fix, comment update, single-line change | Direct Edit |
-| **Simple Task** | Clear goal, 1-2 files, well-defined scope | Quick confirm → Implement |
-| **Complex Task** | Vague goal, multiple files, architectural decisions | **Brainstorm → Task Workflow** |
+| **Question** | User asks about definitions, code, literature, or how something works | Answer directly |
+| **Trivial Fix** | Comment fix, typo fix, small local edit | Direct Edit |
+| **Simple Task** | Clear goal, narrow scope, well-defined object or routine | Quick confirm → Implement |
+| **Complex Task** | Vague goal, multiple constructions, algorithm design, or validation plan | **Brainstorm → Task Workflow** |
 
 ### Classification Signals
 
@@ -95,7 +100,7 @@ When user describes a task, classify it:
 
 > **If in doubt, use Brainstorm + Task Workflow.**
 >
-> Task Workflow ensures specs are injected to agents, resulting in higher quality code.
+> Task Workflow ensures research context is injected to agents, resulting in higher quality work.
 > The overhead is minimal, but the benefit is significant.
 
 ---

@@ -30,7 +30,32 @@ function shouldExclude(filename: string): boolean {
   return false;
 }
 
+function hasCopyableContent(dir: string): boolean {
+  for (const entry of readdirSync(dir)) {
+    if (shouldExclude(entry)) {
+      continue;
+    }
+
+    const fullPath = path.join(dir, entry);
+    const stat = statSync(fullPath);
+
+    if (stat.isDirectory()) {
+      if (hasCopyableContent(fullPath)) {
+        return true;
+      }
+    } else {
+      return true;
+    }
+  }
+
+  return false;
+}
+
 async function copyDirFiltered(src: string, dest: string): Promise<void> {
+  if (!hasCopyableContent(src)) {
+    return;
+  }
+
   ensureDir(dest);
 
   for (const entry of readdirSync(src)) {

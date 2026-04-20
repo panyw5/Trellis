@@ -13,7 +13,7 @@
  *   └── config.toml     # Project-scoped Codex config
  */
 
-import { readdirSync, readFileSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -28,6 +28,9 @@ function listDirectories(dir: string): string[] {
   try {
     return readdirSync(join(__dirname, dir), { withFileTypes: true })
       .filter((entry) => entry.isDirectory())
+      .filter((entry) =>
+        existsSync(join(__dirname, "skills", entry.name, "SKILL.md")),
+      )
       .map((entry) => entry.name)
       .sort();
   } catch {
