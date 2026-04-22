@@ -46,6 +46,7 @@ Use package-specific spec indexes when they exist, and read the research spec in
 python3 ./.trellis/scripts/get_context.py --mode packages
 cat .trellis/spec/<package>/<layer>/index.md   # Package-specific guidelines
 cat .trellis/spec/definitions/index.md
+cat .trellis/spec/implementation/index.md
 cat .trellis/spec/core-tests/index.md
 cat .trellis/spec/math-tests/index.md
 cat .trellis/spec/phy-tests/index.md

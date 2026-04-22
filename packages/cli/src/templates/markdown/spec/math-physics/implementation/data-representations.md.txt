@@ -1,0 +1,11 @@
+# Data Representations
+
+Describe how definitions are realized in code.
+
+Include:
+
+- internal encodings for core mathematical or physical objects
+- sparse versus dense storage choices
+- serialization and pretty-print formats
+- equality, hashing, and canonicalization expectations
+- how code-level objects map back to `definitions/`

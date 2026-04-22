@@ -20,6 +20,7 @@ This creates your personal workspace under `.trellis/workspace/<your-name>/`.
 Before making changes, read the profile guidelines in `.trellis/spec/`:
 
 - `definitions/` for mathematical and physical definitions, symbols, and canonical forms
+- `implementation/` for data representations, algorithm patterns, module boundaries, and caching rules
 - `core-tests/` for programming-project tests, regression expectations, and interface coverage
 - `math-tests/` for mathematical benchmark cases, identities, and literature cross-checks
 - `phy-tests/` for physical observables, symmetries, limits, and consistency expectations

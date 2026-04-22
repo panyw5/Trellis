@@ -95,6 +95,25 @@ export const mathPhysicsDefinitionsNotationContent: string = readLocalTemplate(
 export const mathPhysicsDefinitionsCanonicalContent: string = readLocalTemplate(
   "spec/math-physics/definitions/canonical-representations.md.txt",
 );
+export const mathPhysicsImplementationIndexContent: string = readLocalTemplate(
+  "spec/math-physics/implementation/index.md.txt",
+);
+export const mathPhysicsImplementationDataRepresentationsContent: string =
+  readLocalTemplate(
+    "spec/math-physics/implementation/data-representations.md.txt",
+  );
+export const mathPhysicsImplementationAlgorithmPatternsContent: string =
+  readLocalTemplate(
+    "spec/math-physics/implementation/algorithm-patterns.md.txt",
+  );
+export const mathPhysicsImplementationModuleBoundariesContent: string =
+  readLocalTemplate(
+    "spec/math-physics/implementation/module-boundaries.md.txt",
+  );
+export const mathPhysicsImplementationPerformanceContent: string =
+  readLocalTemplate(
+    "spec/math-physics/implementation/performance-and-caching.md.txt",
+  );
 export const mathPhysicsCoreTestsIndexContent: string = readLocalTemplate(
   "spec/math-physics/core-tests/index.md.txt",
 );

@@ -54,6 +54,7 @@ cat .trellis/spec/guides/index.md              # Thinking guides (always read)
 ```
 
 cat .trellis/spec/definitions/index.md         # Definitions, symbols, and canonical forms, if present
+cat .trellis/spec/implementation/index.md      # Program realization rules, if present
 cat .trellis/spec/core-tests/index.md          # Engineering-level tests, if present
 cat .trellis/spec/math-tests/index.md          # Mathematical expectations, if present
 cat .trellis/spec/phy-tests/index.md           # Physical expectations, if present

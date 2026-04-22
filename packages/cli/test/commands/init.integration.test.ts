@@ -596,11 +596,12 @@ describe("init() integration", () => {
     expect(matches).toHaveLength(1);
   });
 
-  it("#19 math-physics profile creates five-category research spec templates", async () => {
+  it("#19 math-physics profile creates research spec templates with implementation", async () => {
     await init({ yes: true, user: "testdev", profile: "math-physics" });
 
     const specDir = path.join(tmpDir, PATHS.SPEC);
     expect(fs.existsSync(path.join(specDir, "definitions", "index.md"))).toBe(true);
+    expect(fs.existsSync(path.join(specDir, "implementation", "index.md"))).toBe(true);
     expect(fs.existsSync(path.join(specDir, "core-tests", "index.md"))).toBe(true);
     expect(fs.existsSync(path.join(specDir, "math-tests", "index.md"))).toBe(true);
     expect(fs.existsSync(path.join(specDir, "phy-tests", "index.md"))).toBe(true);
@@ -619,6 +620,7 @@ describe("init() integration", () => {
       "utf-8",
     );
     expect(bootstrapPrd).toContain("definitions and notation");
+    expect(bootstrapPrd).toContain("implementation/");
     expect(bootstrapPrd).toContain("math-tests");
     expect(bootstrapPrd).toContain("phy-tests");
     expect(bootstrapPrd).toContain("math-physics Trellis profile");

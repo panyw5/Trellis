@@ -33,6 +33,11 @@ import {
   mathPhysicsDefinitionsIndexContent,
   mathPhysicsDefinitionsNotationContent,
   mathPhysicsDefinitionsCanonicalContent,
+  mathPhysicsImplementationIndexContent,
+  mathPhysicsImplementationDataRepresentationsContent,
+  mathPhysicsImplementationAlgorithmPatternsContent,
+  mathPhysicsImplementationModuleBoundariesContent,
+  mathPhysicsImplementationPerformanceContent,
   mathPhysicsCoreTestsIndexContent,
   mathPhysicsCoreTestsQualityContent,
   mathPhysicsCoreTestsCoverageContent,
@@ -302,6 +307,25 @@ async function createMathPhysicsSpecTemplates(cwd: string): Promise<void> {
       {
         name: "canonical-representations.md",
         content: mathPhysicsDefinitionsCanonicalContent,
+      },
+    ],
+    implementation: [
+      { name: "index.md", content: mathPhysicsImplementationIndexContent },
+      {
+        name: "data-representations.md",
+        content: mathPhysicsImplementationDataRepresentationsContent,
+      },
+      {
+        name: "algorithm-patterns.md",
+        content: mathPhysicsImplementationAlgorithmPatternsContent,
+      },
+      {
+        name: "module-boundaries.md",
+        content: mathPhysicsImplementationModuleBoundariesContent,
+      },
+      {
+        name: "performance-and-caching.md",
+        content: mathPhysicsImplementationPerformanceContent,
       },
     ],
     "core-tests": [
