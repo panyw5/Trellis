@@ -45,6 +45,39 @@ import {
 import { setupProxy, maskProxyUrl } from "../utils/proxy.js";
 import { resolveInitProfile, type InitProfile } from "../types/profile.js";
 
+const BUILT_IN_TEMPLATE_PROFILE_ALIASES = {
+  "math-physics": "math-physics",
+} as const satisfies Record<string, InitProfile>;
+
+const BUILT_IN_TEMPLATE_PREFIX = "__builtin_profile__:";
+
+function resolveBuiltInTemplateProfile(
+  template: string | undefined,
+): InitProfile | null {
+  if (!template) {
+    return null;
+  }
+
+  if (template.startsWith(BUILT_IN_TEMPLATE_PREFIX)) {
+    const alias = template.slice(BUILT_IN_TEMPLATE_PREFIX.length);
+    return BUILT_IN_TEMPLATE_PROFILE_ALIASES[
+      alias as keyof typeof BUILT_IN_TEMPLATE_PROFILE_ALIASES
+    ];
+  }
+
+  return BUILT_IN_TEMPLATE_PROFILE_ALIASES[
+    template as keyof typeof BUILT_IN_TEMPLATE_PROFILE_ALIASES
+  ];
+}
+
+function getBuiltInTemplateChoiceValue(profile: InitProfile): string {
+  return `${BUILT_IN_TEMPLATE_PREFIX}${profile}`;
+}
+
+function isBuiltInTemplateAlias(template: string | undefined): boolean {
+  return resolveBuiltInTemplateProfile(template) !== null;
+}
+
 /**
  * Detect available Python command (python3 or python) and verify version >= 3.10
  */
@@ -812,11 +845,19 @@ export async function init(options: InitOptions): Promise<void> {
 
   // Detect project type (silent - no output)
   const detectedType = detectProjectType(cwd);
-  const profile = resolveInitProfile(options.profile);
+  let profile = resolveInitProfile(options.profile);
+  const builtInTemplateProfile = resolveBuiltInTemplateProfile(
+    options.template,
+  );
+  if (builtInTemplateProfile) {
+    profile = builtInTemplateProfile;
+  }
+
+  const useBuiltInTemplateAlias = isBuiltInTemplateAlias(options.template);
 
   // Parse custom registry source early (needed by both monorepo + single-repo flows)
   let registry: RegistrySource | undefined;
-  if (options.registry) {
+  if (options.registry && !useBuiltInTemplateAlias) {
     try {
       registry = parseRegistrySource(options.registry);
     } catch (error) {
@@ -963,7 +1004,7 @@ export async function init(options: InitOptions): Promise<void> {
               }
             }
           }
-        } else if (options.template) {
+        } else if (options.template && !useBuiltInTemplateAlias) {
           // --template as default for all packages
           for (const pkg of detected) {
             const destDir = path.join(
@@ -1050,7 +1091,11 @@ export async function init(options: InitOptions): Promise<void> {
     // Monorepo: template selection already handled above
   } else if (options.template) {
     // Template specified via --template flag
-    selectedTemplate = options.template;
+    if (builtInTemplateProfile) {
+      profile = builtInTemplateProfile;
+    } else {
+      selectedTemplate = options.template;
+    }
   } else if (!options.yes) {
     // Interactive mode: show template selection
     const timeoutSec = TIMEOUTS.INDEX_FETCH_MS / 1000;
@@ -1113,6 +1158,15 @@ export async function init(options: InitOptions): Promise<void> {
           value: t.id,
         }));
 
+      const builtInTemplateChoices = registry
+        ? []
+        : [
+            {
+              name: "math-physics (built-in research workflow)",
+              value: getBuiltInTemplateChoiceValue("math-physics"),
+            },
+          ];
+
       const templateChoices = registry
         ? specTemplates
         : [
@@ -1120,6 +1174,7 @@ export async function init(options: InitOptions): Promise<void> {
               name: "from scratch (default)",
               value: "blank",
             },
+            ...builtInTemplateChoices,
             ...specTemplates,
             {
               name: "custom (enter a registry source)",
@@ -1239,34 +1294,42 @@ export async function init(options: InitOptions): Promise<void> {
         } else {
           templatePicked = true;
           if (templateAnswer.template !== "blank") {
-            selectedTemplate = templateAnswer.template;
+            const builtInTemplateProfile = resolveBuiltInTemplateProfile(
+              templateAnswer.template,
+            );
 
-            // Check if spec directory already exists and ask what to do
-            const specDir = path.join(cwd, PATHS.SPEC);
-            if (
-              fs.existsSync(specDir) &&
-              !options.overwrite &&
-              !options.append
-            ) {
-              const actionAnswer = await inquirer.prompt<{
-                action: TemplateStrategy;
-              }>([
-                {
-                  type: "list",
-                  name: "action",
-                  message: `Directory ${PATHS.SPEC} already exists. What do you want to do?`,
-                  choices: [
-                    { name: "Skip (keep existing)", value: "skip" },
-                    { name: "Overwrite (replace all)", value: "overwrite" },
-                    {
-                      name: "Append (add missing files only)",
-                      value: "append",
-                    },
-                  ],
-                  default: "skip",
-                },
-              ]);
-              templateStrategy = actionAnswer.action;
+            if (builtInTemplateProfile) {
+              profile = builtInTemplateProfile;
+            } else {
+              selectedTemplate = templateAnswer.template;
+
+              // Check if spec directory already exists and ask what to do
+              const specDir = path.join(cwd, PATHS.SPEC);
+              if (
+                fs.existsSync(specDir) &&
+                !options.overwrite &&
+                !options.append
+              ) {
+                const actionAnswer = await inquirer.prompt<{
+                  action: TemplateStrategy;
+                }>([
+                  {
+                    type: "list",
+                    name: "action",
+                    message: `Directory ${PATHS.SPEC} already exists. What do you want to do?`,
+                    choices: [
+                      { name: "Skip (keep existing)", value: "skip" },
+                      { name: "Overwrite (replace all)", value: "overwrite" },
+                      {
+                        name: "Append (add missing files only)",
+                        value: "append",
+                      },
+                    ],
+                    default: "skip",
+                  },
+                ]);
+                templateStrategy = actionAnswer.action;
+              }
             }
           }
         }

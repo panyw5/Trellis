@@ -89,7 +89,7 @@ program
   .option("--no-monorepo", "Skip monorepo detection")
   .option(
     "-t, --template <name>",
-    "Use a remote spec template (e.g., electron-fullstack)",
+    "Use a spec template alias or remote spec template (e.g., math-physics, electron-fullstack)",
   )
   .option(
     "--overwrite",

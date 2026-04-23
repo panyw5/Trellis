@@ -631,4 +631,147 @@ describe("init() integration", () => {
     );
     expect(guidesIndex).toContain("Research Thinking Guides");
   });
+
+  it("#20 math-physics template alias reuses the research profile in yes mode", async () => {
+    await init({ yes: true, user: "testdev", template: "math-physics" });
+
+    const specDir = path.join(tmpDir, PATHS.SPEC);
+    expect(fs.existsSync(path.join(specDir, "definitions", "index.md"))).toBe(true);
+    expect(fs.existsSync(path.join(specDir, "implementation", "index.md"))).toBe(true);
+    expect(fs.existsSync(path.join(specDir, "core-tests", "index.md"))).toBe(true);
+    expect(fs.existsSync(path.join(specDir, "math-tests", "index.md"))).toBe(true);
+    expect(fs.existsSync(path.join(specDir, "phy-tests", "index.md"))).toBe(true);
+    expect(fs.existsSync(path.join(specDir, "frontend"))).toBe(false);
+    expect(fs.existsSync(path.join(specDir, "backend"))).toBe(false);
+
+    const workflow = fs.readFileSync(
+      path.join(tmpDir, PATHS.WORKFLOW_GUIDE_FILE),
+      "utf-8",
+    );
+    expect(workflow).toContain("Research Workflow");
+  });
+
+  it("#21 interactive template picker includes math-physics and skips remote download", async () => {
+    const inquirerModule = await import("inquirer");
+    const inquirerPrompt = vi.mocked(inquirerModule.default.prompt);
+
+    const templateFetcher = await import("../../src/utils/template-fetcher.js");
+    const fetchTemplateIndexSpy = vi
+      .spyOn(templateFetcher, "fetchTemplateIndex")
+      .mockResolvedValue([
+        {
+          id: "electron-fullstack",
+          type: "spec",
+          name: "Electron + React + TypeScript",
+          path: "specs/electron-fullstack",
+        },
+      ]);
+    const downloadTemplateByIdSpy = vi.spyOn(
+      templateFetcher,
+      "downloadTemplateById",
+    );
+
+    inquirerPrompt
+      .mockResolvedValueOnce({ tools: ["claude"] })
+      .mockResolvedValueOnce({
+        template: "__builtin_profile__:math-physics",
+      });
+
+    await init({ user: "testdev" });
+
+    expect(fetchTemplateIndexSpy).toHaveBeenCalled();
+    expect(downloadTemplateByIdSpy).not.toHaveBeenCalled();
+
+    const templatePromptCall = inquirerPrompt.mock.calls.find(
+      ([question]) =>
+        Array.isArray(question) &&
+        question.some(
+          (entry) =>
+            typeof entry === "object" &&
+            entry !== null &&
+            "message" in entry &&
+            entry.message === "Select a spec template:",
+        ),
+    );
+    expect(templatePromptCall).toBeDefined();
+
+    const templateQuestion = (templatePromptCall?.[0] as Array<{
+      message?: string;
+      choices?: Array<{ name: string; value: string }>;
+    }>).find((entry) => entry.message === "Select a spec template:");
+    expect(templateQuestion?.choices).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          name: "math-physics (built-in research workflow)",
+          value: "__builtin_profile__:math-physics",
+        }),
+      ]),
+    );
+
+    const specDir = path.join(tmpDir, PATHS.SPEC);
+    expect(fs.existsSync(path.join(specDir, "definitions", "index.md"))).toBe(true);
+    expect(fs.existsSync(path.join(specDir, "implementation", "index.md"))).toBe(true);
+    expect(fs.existsSync(path.join(specDir, "frontend"))).toBe(false);
+    expect(fs.existsSync(path.join(specDir, "backend"))).toBe(false);
+  });
+
+  it("#22 math-physics template alias in monorepo stays repository-level and skips package downloads", async () => {
+    setupPnpmWorkspace(tmpDir, [
+      { rel: "packages/core", name: "core" },
+      { rel: "packages/ui", name: "ui" },
+    ]);
+
+    const templateFetcher = await import("../../src/utils/template-fetcher.js");
+    const downloadTemplateByIdSpy = vi.spyOn(
+      templateFetcher,
+      "downloadTemplateById",
+    );
+
+    await init({ yes: true, user: "testdev", template: "math-physics" });
+
+    expect(downloadTemplateByIdSpy).not.toHaveBeenCalled();
+
+    const specDir = path.join(tmpDir, PATHS.SPEC);
+    expect(fs.existsSync(path.join(specDir, "definitions", "index.md"))).toBe(true);
+    expect(fs.existsSync(path.join(specDir, "implementation", "index.md"))).toBe(true);
+    expect(fs.existsSync(path.join(specDir, "core-tests", "index.md"))).toBe(true);
+    expect(fs.existsSync(path.join(specDir, "math-tests", "index.md"))).toBe(true);
+    expect(fs.existsSync(path.join(specDir, "phy-tests", "index.md"))).toBe(true);
+    expect(fs.existsSync(path.join(specDir, "guides", "index.md"))).toBe(true);
+    expect(fs.existsSync(path.join(specDir, "core"))).toBe(false);
+    expect(fs.existsSync(path.join(specDir, "ui"))).toBe(false);
+  });
+
+  it("#23 math-physics template alias ignores registry probing and still uses local profile", async () => {
+    const templateFetcher = await import("../../src/utils/template-fetcher.js");
+    const probeRegistryIndexSpy = vi.spyOn(
+      templateFetcher,
+      "probeRegistryIndex",
+    );
+    const downloadRegistryDirectSpy = vi.spyOn(
+      templateFetcher,
+      "downloadRegistryDirect",
+    );
+    const downloadTemplateByIdSpy = vi.spyOn(
+      templateFetcher,
+      "downloadTemplateById",
+    );
+
+    await init({
+      yes: true,
+      user: "testdev",
+      template: "math-physics",
+      registry: "gh:example/specs",
+    });
+
+    expect(probeRegistryIndexSpy).not.toHaveBeenCalled();
+    expect(downloadRegistryDirectSpy).not.toHaveBeenCalled();
+    expect(downloadTemplateByIdSpy).not.toHaveBeenCalled();
+
+    const specDir = path.join(tmpDir, PATHS.SPEC);
+    expect(fs.existsSync(path.join(specDir, "definitions", "index.md"))).toBe(true);
+    expect(fs.existsSync(path.join(specDir, "implementation", "index.md"))).toBe(true);
+    expect(fs.existsSync(path.join(specDir, "frontend"))).toBe(false);
+    expect(fs.existsSync(path.join(specDir, "backend"))).toBe(false);
+  });
 });
